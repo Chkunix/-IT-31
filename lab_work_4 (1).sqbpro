@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="lab_work_4 (1).db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2006"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="cars" custom_title="0" dock_id="3" table="4,4:maincars"/><dock_state state="000000ff00000000fd000000010000000200000400000002b6fc0100000003fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000000004000000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000000004000000012800ffffff000002680000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="cars" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="29"/><column index="2" value="85"/><column index="3" value="62"/><column index="4" value="39"/><column index="5" value="70"/><column index="6" value="109"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS sales;
+DROP TABLE IF EXISTS clients;
+DROP TABLE IF EXISTS cars;
+
+CREATE TABLE cars (
+    id     INTEGER PRIMARY KEY,
+    brand  TEXT NOT NULL,
+    model  TEXT NOT NULL,
+    year   INTEGER,
+    price  REAL,
+    status TEXT NOT NULL DEFAULT 'в наявності'
+);
+
+INSERT INTO cars (brand, model, year, price, status) VALUES
+    ('Toyota',     'Corolla', 2022, 720000, 'в наявності'),
+    ('Volkswagen', 'Golf',    2021, 650000, 'продано'),
+    ('Skoda',      'Octavia', 2023, 780000, 'в наявності'),
+    ('Renault',    'Duster',  2020, 580000, 'в наявності'),
+    ('Hyundai',    'Tucson',  2022, 950000, 'зарезервовано'),
+    ('Ford',       'Focus',   2019, 490000, 'продано');
+	CREATE TABLE clients (
+    id         INTEGER PRIMARY KEY,
+    last_name  TEXT NOT NULL,
+    first_name TEXT NOT NULL,
+    phone      TEXT,
+    city       TEXT
+);
+
+INSERT INTO clients (last_name, first_name, phone, city) VALUES
+    ('Коваленко', 'Андрій',  '+380671234567', 'Київ'),
+    ('Мельник',   'Оксана',  '+380502345678', 'Львів'),
+    ('Бондаренко','Сергій',  '+380633456789', 'Одеса'),
+    ('Шевчук',    'Ірина',   '+380964567890', 'Київ'),
+    ('Ткаченко',  'Дмитро',  '+380685678901', 'Харків'),
+    ('Литвин',    'Наталія', '+380736789012', 'Вінниця');
+	CREATE TABLE sales (
+    id             INTEGER PRIMARY KEY,
+    car_id         INTEGER NOT NULL,
+    client_id      INTEGER,
+    sale_date      TEXT NOT NULL,
+    price          REAL NOT NULL,
+    payment_method TEXT NOT NULL DEFAULT 'готівка',
+    FOREIGN KEY (car_id)    REFERENCES cars (id)    ON DELETE RESTRICT,
+    FOREIGN KEY (client_id) REFERENCES clients (id) ON DELETE SET NULL
+);
+
+INSERT INTO sales (car_id, client_id, sale_date, price, payment_method) VALUES
+    (2, 1, '2026-02-10', 650000, 'готівка'),
+    (6, 3, '2026-02-18', 485000, 'кредит'),
+    (1, 2, '2026-03-04', 715000, 'безготівковий'),
+    (4, 5, '2026-03-12', 575000, 'кредит'),
+    (3, 4, '2026-04-02', 780000, 'безготівковий'),
+    (5, 6, '2026-04-15', 940000, 'лізинг'),
+    (1, 6, '2026-05-06', 720000, 'готівка'),
+    (2, 4, '2026-05-21', 645000, 'кредит'),
+    (3, 1, '2026-06-09', 775000, 'безготівковий'),
+    (6, 2, '2026-06-25', 490000, 'готівка');</sql><current_tab id="0"/></tab_sql></sqlb_project>
